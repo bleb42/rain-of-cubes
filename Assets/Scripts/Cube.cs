@@ -35,8 +35,9 @@ public class Cube : MonoBehaviour
         }
     }
 
-    public void Spawn()
+    public void Spawn(Vector3 position)
     {
+        transform.position = position;
         gameObject.SetActive(true);
 
         _renderer.material.color = _defaultColor; 
