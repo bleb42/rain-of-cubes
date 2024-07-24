@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CubeSpawner : Spawner<Cube>
@@ -6,31 +7,50 @@ public class CubeSpawner : Spawner<Cube>
     [SerializeField] private Transform[] _spawnPoints;
     [SerializeField] private float _repeatRate;
 
+    private Coroutine _spawningCubes;
+    private bool _isSpawning = false;
+    
     public event Action<Cube> CubeDied;
+    public event Action StatusChanged;
 
     private void Start()
     {
-        InvokeRepeating(nameof(GetObject), 0.0f, _repeatRate);
+        _spawningCubes = StartCoroutine(SpawningCubes());
     }
 
-    protected override void ActionOnGet(Cube cube)
+    protected override void ActivateOnGet(Cube cube)
     {
-        base.ActionOnGet(cube);
+        base.ActivateOnGet(cube);
         cube.Died += OnCubeDie;
 
         Vector3 position = _spawnPoints[UnityEngine.Random.Range(0, _spawnPoints.Length)].transform.position;
-        cube.Spawn(position);
+        cube.Init(position);
     }
 
     private void OnCubeDie(Cube cube)
     {
-        _pool.Release(cube);
+        Pool.Release(cube);
         cube.Died -= OnCubeDie;
         CubeDied?.Invoke(cube);
+        StatusChanged?.Invoke();
     }
 
     private void GetObject()
     {
-        _pool.Get();
+        Pool.Get();
+        StatusChanged?.Invoke();
+    }
+
+    private IEnumerator SpawningCubes() 
+    {
+        WaitForSeconds repeatRate = new WaitForSeconds(_repeatRate);
+        _isSpawning = true;
+
+        while (_isSpawning)
+        {
+            GetObject();
+
+            yield return repeatRate;
+        }
     }
 }

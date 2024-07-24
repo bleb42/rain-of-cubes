@@ -7,13 +7,12 @@ public class Bomb : MonoBehaviour
     [SerializeField] private float _fadeDuration = 2f;
     [SerializeField] private float _explosionRadius = 5f;
 
-    public event Action<Bomb> Died;
-
+    private Coroutine _explode;
     private Renderer _renderer;
     private Material _material;
     private Color _originalColor;
-
-    private Coroutine _explode;
+    
+    public event Action<Bomb> Died;
 
     private void Awake()
     {

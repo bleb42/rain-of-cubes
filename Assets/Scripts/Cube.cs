@@ -10,12 +10,11 @@ public class Cube : MonoBehaviour
     [SerializeField] private float _minLifeTime = 2f;
     [SerializeField] private float _maxLifeTime = 5f;
 
-    public event Action<Cube> Died;
-
+    private Coroutine _dieTimer;
     private Renderer _renderer;
     private bool _haveTouchedFloor;
 
-    private Coroutine _dieTimer;
+    public event Action<Cube> Died;
 
     private void Awake()
     {
@@ -35,7 +34,7 @@ public class Cube : MonoBehaviour
         }
     }
 
-    public void Spawn(Vector3 position)
+    public void Init(Vector3 position)
     {
         transform.position = position;
         gameObject.SetActive(true);
