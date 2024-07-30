@@ -8,10 +8,12 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawner where T : MonoBehavio
     [SerializeField] private int _poolCapacity = 10;
     [SerializeField] private int _poolMaxSize = 10;
 
-    public string SpawnedObjectName { get; private set; }
-    
     protected ObjectPool<T> Pool;
     private int _totalCreated;
+
+    public event Action StatusChanged;
+
+    public string SpawnedObjectName { get; private set; }
 
     protected virtual void Awake()
     {
@@ -20,7 +22,7 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawner where T : MonoBehavio
         Pool = new ObjectPool<T>(
                     createFunc: () => Instantiate(_prefab),
                     actionOnGet: (obj) => ActivateOnGet(obj),
-                    actionOnRelease: (obj) => obj.gameObject.SetActive(false),
+                    actionOnRelease: (obj) => ActivateOnRelease(obj),
                     actionOnDestroy: (obj) => Destroy(obj),
                     collectionCheck: true,
                     defaultCapacity: _poolCapacity,
@@ -30,6 +32,13 @@ public abstract class Spawner<T> : MonoBehaviour, ISpawner where T : MonoBehavio
     protected virtual void ActivateOnGet(T obj)
     {
         _totalCreated++;
+        StatusChanged?.Invoke();
+    }
+
+    protected virtual void ActivateOnRelease(T obj)
+    {
+        obj.gameObject.SetActive(false);
+        StatusChanged?.Invoke();
     }
 
     public int GetActiveCount()
@@ -48,4 +57,6 @@ public interface ISpawner
     string SpawnedObjectName { get; }
     int GetTotalCount();
     int GetActiveCount();
+
+    event Action StatusChanged;
 }

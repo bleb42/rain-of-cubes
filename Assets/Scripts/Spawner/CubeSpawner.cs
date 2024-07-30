@@ -11,7 +11,6 @@ public class CubeSpawner : Spawner<Cube>
     private bool _isSpawning = false;
     
     public event Action<Cube> CubeDied;
-    public event Action StatusChanged;
 
     private void Start()
     {
@@ -32,13 +31,11 @@ public class CubeSpawner : Spawner<Cube>
         Pool.Release(cube);
         cube.Died -= OnCubeDie;
         CubeDied?.Invoke(cube);
-        StatusChanged?.Invoke();
     }
 
     private void GetObject()
     {
         Pool.Get();
-        StatusChanged?.Invoke();
     }
 
     private IEnumerator SpawningCubes() 

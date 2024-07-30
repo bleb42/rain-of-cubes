@@ -21,7 +21,7 @@ public class Bomb : MonoBehaviour
         _originalColor = _material.color;
     }
 
-    public void Spawn(Vector3 position)
+    public void Init(Vector3 position)
     {
         transform.position = position;
         gameObject.SetActive(true);

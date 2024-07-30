@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -153,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd9fa7e4b3e85f46b47c691fb0715bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnerDehaviour: {fileID: 832363211}
+  _spawnerBehaviour: {fileID: 832363211}
   _text: {fileID: 645380616}
 --- !u!4 &126828444
 Transform:
@@ -182,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd9fa7e4b3e85f46b47c691fb0715bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spawnerDehaviour: {fileID: 162002548}
+  _spawnerBehaviour: {fileID: 162002548}
   _text: {fileID: 1721009176}
 --- !u!1 &162002547
 GameObject:

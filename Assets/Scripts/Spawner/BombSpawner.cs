@@ -5,8 +5,6 @@ public class BombSpawner : Spawner<Bomb>
 {
     [SerializeField] private CubeSpawner _cubeSpawner;
 
-    public event Action StatusChanged;
-
     private void Start()
     {
         _cubeSpawner.CubeDied += OnCubeDied;
@@ -22,14 +20,12 @@ public class BombSpawner : Spawner<Bomb>
     {
         Pool.Release(bomb);
         bomb.Died -= OnBombDie;
-        StatusChanged?.Invoke();
     }
 
     private void OnCubeDied(Cube cube)
     {
         Bomb bomb = Pool.Get();
-        bomb.Spawn(cube.transform.position);
+        bomb.Init(cube.transform.position);
         bomb.StartFading();
-        StatusChanged?.Invoke();
     }
 }
