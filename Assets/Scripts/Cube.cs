@@ -45,17 +45,9 @@ public class Cube : MonoBehaviour
 
     private IEnumerator DieTimer() 
     {
-        WaitForSeconds second = new WaitForSeconds(1);
-
         float lifeTime = UnityEngine.Random.Range(_minLifeTime, _maxLifeTime);
-        float currentTime = 0f;
 
-        while (currentTime <= lifeTime) 
-        {
-            currentTime++;
-
-            yield return second;
-        }
+        yield return new WaitForSeconds(lifeTime);
 
         Died?.Invoke(this);
     }

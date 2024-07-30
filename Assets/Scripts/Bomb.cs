@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Renderer))]
 public class Bomb : MonoBehaviour
 {
     [SerializeField] private float _fadeDuration = 2f;
